@@ -40,12 +40,12 @@ jest
   .mock('../Libraries/Components/TextInput/TextInput', () => mockComponent('../Libraries/Components/TextInput/TextInput'))
   .mock('../Libraries/Modal/Modal', () => mockComponent('../Libraries/Modal/Modal'))
   .mock('../Libraries/Components/View/View', () => mockComponent('../Libraries/Components/View/View', MockNativeMethods))
-  .mock('../Libraries/Components/RefreshControl/RefreshControl', () => jest.requireMock('RefreshControlMock'))
-  .mock('../Libraries/Components/ScrollView/ScrollView', () => jest.requireMock('ScrollViewMock'))
+  .mock('../Libraries/Components/RefreshControl/RefreshControl', () => jest.requireActual('../Libraries/Components/RefreshControl/__mocks__/RefreshControlMock'))
+  .mock('../Libraries/Components/ScrollView/ScrollView', () => jest.requireActual('../Libraries/Components/ScrollView/__mocks__/ScrollViewMock'))
   .mock('../Libraries/Components/ActivityIndicator/ActivityIndicator', () => mockComponent('../Libraries/Components/ActivityIndicator/ActivityIndicator'))
-  .mock('../Libraries/Lists/ListView/ListView', () => jest.requireMock('ListViewMock'))
+  .mock('../Libraries/Lists/ListView/ListView', () => jest.requireActual('../Libraries/Lists/ListView/__mocks__/ListViewMock'))
   .mock('../Libraries/Lists/ListView/ListViewDataSource', () => {
-    const DataSource = jest.requireActual('ListViewDataSource');
+    const DataSource = jest.requireActual('../Libraries/Lists/ListView/ListViewDataSource');
     DataSource.prototype.toJSON = function() {
       function ListViewDataSource(dataBlob) {
         this.items = 0;
@@ -66,7 +66,7 @@ jest
     return DataSource;
   })
   .mock('../Libraries/Animated/src/AnimatedImplementation', () => {
-    const AnimatedImplementation = jest.requireActual('AnimatedImplementation');
+    const AnimatedImplementation = jest.requireActual('../Libraries/Animated/src/AnimatedImplementation');
     const oldCreate = AnimatedImplementation.createAnimatedComponent;
     AnimatedImplementation.createAnimatedComponent = function(
       Component,
@@ -79,7 +79,7 @@ jest
     return AnimatedImplementation;
   })
   .mock('../Libraries/Renderer/shims/ReactNative', () => {
-    const ReactNative = jest.requireActual('ReactNative');
+    const ReactNative = jest.requireActual('../Libraries/Renderer/shims/ReactNative');
     const NativeMethodsMixin =
       ReactNative.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED
         .NativeMethodsMixin;
@@ -301,11 +301,22 @@ const mockNativeModules = {
   },
 };
 
-Object.keys(mockNativeModules).forEach(module => {
+const mockNativeModuleJS = {
+  '../Libraries/AppState/AppState': mockNativeModules.AppState,
+  '../Libraries/Components/Clipboard/Clipboard': mockNativeModules.Clipboard,
+  '../Libraries/Utilities/DeviceInfo': mockNativeModules.DeviceInfo,
+  '../Libraries/Linking/Linking': mockNativeModules.Linking,
+  '../Libraries/Network/NetInfo': mockNativeModules.NetInfo,
+  '../Libraries/ReactNative/UIManager': mockNativeModules.UIManager,
+};
+
+const allRNMocks = {...mockNativeModules, ...mockNativeModuleJS};
+
+Object.keys(allRNMocks).forEach(module => {
   try {
-    jest.doMock(module, () => mockNativeModules[module]); // needed by FacebookSDK-test
+    jest.doMock(module, () => allRNMocks[module]); // needed by FacebookSDK-test
   } catch (e) {
-    jest.doMock(module, () => mockNativeModules[module], {virtual: true});
+    jest.doMock(module, () => allRNMocks[module], {virtual: true});
   }
 });
 

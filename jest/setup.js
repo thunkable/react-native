@@ -39,11 +39,11 @@ jest
   .mock('TextInput', () => mockComponent('TextInput'))
   .mock('Modal', () => mockComponent('Modal'))
   .mock('View', () => mockComponent('View', MockNativeMethods))
-  .mock('RefreshControl', () => jest.requireMock('RefreshControlMock'))
-  .mock('ScrollView', () => jest.requireMock('ScrollViewMock'))
+  .mock('RefreshControl', () => jest.requireMock('RefreshControl'))
+  .mock('ScrollView', () => jest.requireMock('ScrollView'))
   .mock('ActivityIndicator', () => mockComponent('ActivityIndicator'))
   .mock('AnimatedImplementation', () => {
-    const AnimatedImplementation = jest.requireActual('AnimatedImplementation');
+    const AnimatedImplementation = jest.requireActual('../Libraries/Animated/src/AnimatedImplementation');
     const oldCreate = AnimatedImplementation.createAnimatedComponent;
     AnimatedImplementation.createAnimatedComponent = function(
       Component,
@@ -56,7 +56,7 @@ jest
     return AnimatedImplementation;
   })
   .mock('ReactNative', () => {
-    const ReactNative = jest.requireActual('ReactNative');
+    const ReactNative = jest.requireActual('../Libraries/Renderer/shims/ReactNative');
     const NativeMethodsMixin =
       ReactNative.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED
         .NativeMethodsMixin;
@@ -296,11 +296,22 @@ const mockNativeModules = {
   },
 };
 
-Object.keys(mockNativeModules).forEach(module => {
+const mockNativeModuleJS = {
+  '../Libraries/AppState/AppState': mockNativeModules.AppState,
+  '../Libraries/Components/Clipboard/Clipboard': mockNativeModules.Clipboard,
+  '../Libraries/Utilities/DeviceInfo': mockNativeModules.DeviceInfo,
+  '../Libraries/Linking/Linking': mockNativeModules.Linking,
+  '../Libraries/Network/NetInfo': mockNativeModules.NetInfo,
+  '../Libraries/ReactNative/UIManager': mockNativeModules.UIManager,
+};
+
+const allRNMocks = {...mockNativeModules, ...mockNativeModuleJS};
+
+Object.keys(allRNMocks).forEach(module => {
   try {
-    jest.doMock(module, () => mockNativeModules[module]); // needed by FacebookSDK-test
+    jest.doMock(module, () => allRNMocks[module]); // needed by FacebookSDK-test
   } catch (e) {
-    jest.doMock(module, () => mockNativeModules[module], {virtual: true});
+    jest.doMock(module, () => allRNMocks[module], {virtual: true});
   }
 });
 

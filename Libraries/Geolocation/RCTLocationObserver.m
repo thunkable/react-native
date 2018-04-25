@@ -234,10 +234,7 @@ RCT_EXPORT_METHOD(requestAuthorization)
     }
   }
   // Request location access permission
-  if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"] &&
-    [_locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
-    [_locationManager requestAlwaysAuthorization];
-  } else if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"] &&
+  if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"] &&
     [_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
     [_locationManager requestWhenInUseAuthorization];
   }

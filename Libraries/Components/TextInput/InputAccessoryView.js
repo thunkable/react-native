@@ -89,7 +89,7 @@ type Props = {
 
 class InputAccessoryView extends React.Component<Props> {
   render(): React.Node {
-    console.warn('<InputAccessoryView> is not supported on Android yet.');
+    // console.warn('<InputAccessoryView> is not supported on Android yet.');
 
     if (React.Children.count(this.props.children) === 0) {
       return null;

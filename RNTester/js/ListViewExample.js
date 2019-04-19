@@ -20,10 +20,10 @@ const {
   Text,
   View,
 } = ReactNative;
-const ListViewDataSource = require('ListViewDataSource');
+const ListViewDataSource = require('../../Libraries/Lists/ListView/ListViewDataSource');
 const RNTesterPage = require('./RNTesterPage');
 
-import type {RNTesterProps} from 'RNTesterTypes';
+import type {RNTesterProps} from './Shared/RNTesterTypes';
 
 type State = {|
   dataSource: ListViewDataSource,

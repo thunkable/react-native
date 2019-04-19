@@ -23,7 +23,7 @@ const {
 
 const RNTesterPage = require('./RNTesterPage');
 
-import type {RNTesterProps} from 'RNTesterTypes';
+import type {RNTesterProps} from './Shared/RNTesterTypes';
 
 const data = [
   {

@@ -20,9 +20,9 @@ const {
   Text,
   View,
 } = ReactNative;
-const ListViewDataSource = require('ListViewDataSource');
+const ListViewDataSource = require('../../Libraries/Lists/ListView/ListViewDataSource');
 
-import type {RNTesterProps} from 'RNTesterTypes';
+import type {RNTesterProps} from './Shared/RNTesterTypes';
 
 const THUMB_URLS = [
   require('./Thumbnails/like.png'),

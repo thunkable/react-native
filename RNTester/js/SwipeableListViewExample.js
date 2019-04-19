@@ -23,8 +23,8 @@ const {
 
 const RNTesterPage = require('./RNTesterPage');
 
-import type {RNTesterProps} from 'RNTesterTypes';
-import type {SwipeableListViewDataSource} from 'SwipeableListViewDataSource';
+import type {RNTesterProps} from './Shared/RNTesterTypes';
+import type {SwipeableListViewDataSource} from '../../Libraries/Experimental/SwipeableRow/SwipeableListViewDataSource';
 
 type State = {|
   dataSource: SwipeableListViewDataSource,

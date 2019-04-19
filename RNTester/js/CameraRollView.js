@@ -23,16 +23,16 @@ const {
   StyleSheet,
   View,
 } = ReactNative;
-const ListViewDataSource = require('ListViewDataSource');
+const ListViewDataSource = require('../../Libraries/Lists/ListView/ListViewDataSource');
 
-const groupByEveryN = require('groupByEveryN');
-const logError = require('logError');
+const groupByEveryN = require('../../Libraries/Utilities/groupByEveryN');
+const logError = require('../../Libraries/Utilities/logError');
 
 import type {
   PhotoIdentifier,
   PhotoIdentifiersPage,
   GetPhotosParams,
-} from 'CameraRoll';
+} from '../../Libraries/CameraRoll/CameraRoll';
 
 function rowHasChanged<T>(r1: Array<T>, r2: Array<T>): boolean {
   if (r1.length !== r2.length) {
